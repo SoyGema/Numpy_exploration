@@ -55,6 +55,22 @@ class game_theory_analisys:
 
     def best_response(self,pay_off_matrix):
 
+        """Isolate the player strategy and figure
+        out what the other player responds to that strategy"""
+
+        #BEST RESPONSE OF PLAYER ONE
+
+        best_response_player_one = []
+        for i in player_two[:,i]:
+            if max(player_two[:,i]):
+                best_response_player_one.append(i)
+
+        #BEST RESPONSE OF PLAYER TWO
+
+        best_response_player_two = []
+        for i in player_one[i]:
+            if max(player_one[i]):
+                best_response_player_two.append(i)
 
         return best_tuples
 
