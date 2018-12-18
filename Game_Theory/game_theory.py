@@ -1,39 +1,56 @@
-import math
+import math 
 import numpy as np
 
 
-class game_theory_analisys():
-    """Class that makes Game Theory analysis """
 
-    def pay_off_matrix(self,a,g,m,c,i,o,e,k,q,
-                                b,h,n,d,j,p,f,l,r):
+class game_theory_analisys:
 
-        """Fills the empty matrix with game conditions"""
 
-        player_one = np.array([[a, b, c],
-                               [d, e, f],
-                               [g, h, i]])
+    def create_payoff_matrix(self, list_1,list_2):
 
-        player_two = np.array([[j, k, l],
-                               [m, n, o],
-                               [p, q, r]])
+    """ Creates pay-off matrix
 
-        pay_off_matrix = np.stack((x, y), axis=2)
+        player_one = np.array([[a,b,c],
+                               [d,e,f],
+                               [g,h,i]])
+
+        player_two = np.array([[j,k,l],
+                               [m,n,o],
+                               [p,q,r]])
+
+    """
+
+        list_1 = [[a,b,c],[d,e,f],[g,h,i]]
+        list_2 = [[j,k,l],[m,n,o],[p,q,r]]
+
+        player_one = np.asarray(list_1)
+        player_two = np.asarray(list_2)
+
+        pay_off_matrix = np.stack((player_one,player_two), axis=2)
 
         return pay_off_matrix
 
-    def Iesde(self, pay_off_matrix):
+    def IESD(self, player_one, player_two):
 
-        """Implements Elimination of Strickly Dominated Strategies"""
+    """ Iterated elimination of strickly dominated environment """
 
-        for i in pay_off_matrix:
 
-            if pay_off_matrix[0][0][i] > pay_off_matrix[0][0][i+1]:
-                new_pay_off = np.delete(pay_off_matrix,0,i) #TODO:->TEST
-            if pay_off_matrix[i][0][0] > pay_off_matrix[i+1][0][0]:
-                new_pay_off = np.delete(new_pay_off,i,0) #-TODO:->TEST
+        #PLAYER 1
+        "Eliminate unecessary columns"
+        if player_two[:,0].all() > player_two[:,1].all():
+            np.delete(player_two[:,1])
+        if player_two[:,1].all() > player_two[:,2].all():
+            np.delete(player_two[:, 1])
 
-        return new_pay_off
+
+        #PLAYER 2
+        "Eliminate unecessary rows"
+        if player_one[0].all() > player_two[1].all():
+            np.delete(player_two[1])
+        if player_one[1].all() > player_two[2].all():
+            np.delete(player_two[2])
+
+        np.stack((player_one,player_two), axis=2)
 
 
     def best_response(self,pay_off_matrix):
